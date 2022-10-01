@@ -5,7 +5,7 @@ ob_start();
 
     if (isset($_GET['new']) && $_GET['new'] == 1) {
     	# code...
-    	echo "<script>alert('le formulaire que vous avez rempli c\'etait juste pour l\'iscription ou connexion.remplissez les information sur le client pour valider votre commande et montrez que vous etes pas un spam')</script>";
+    	echo "<script>alert("."le formulaire que vous avez rempli c\'etait juste pour l\'iscription ou connexion.remplissez les information sur le client pour valider votre commande et montrez que vous etes pas un spam)"."</script>";
     }
 
     echo "<script>alert('".lang('alert')."')</script>";
@@ -44,41 +44,28 @@ ob_start();
   							<label for="floatingPassword"><?= lang('num'); ?></label>
 						</div>
 
+						<?php 
+						//$stop = total_items();
+						@$tel = $_SESSION['tel'];
+						$sql_run_items = "SELECT * FROM cart WHERE tel = '$tel' AND panier = 0";
+						$run_items     = mysqli_query($con,$sql_run_items);
+										    
+						$count_items   = mysqli_num_rows($run_items);
+						for ($i=1; $i <= $count_items ; $i++) { 
+							echo '<input type="hidden" name="quantity" value="" id="quantity'.$i.'">';
+						}
+
+						 ?>
+
+						<!-- <input type="hidden" name="quantity" value="" id="quantity"> -->
+
 						<div class="d-grid gap-2 mt-3">
 							<input type="submit" name="buy" value="<?= lang('submit'); ?>" class="btn btn-outline-success">
 
 						</div>
 					</form>
 
-					<?php 
-
-					if (isset($_POST['buy'])) {
-						# code...
-						@$firstname = $_POST['firstname'];
-						@$lastname  = $_POST['lastname'];
-						@$wilaya    = $_POST['wilaya'];
-						@$commune   = $_POST['commune'];
-						@$tel       = $_POST['tel'];
-						$ip         = getUserIpAddr();
-						@$total      = $_SESSION['total'];
-
-						//$sql = "UPDATE cart SET firstname = '$firstname' , lastname = '$lastname' , $wilaya ='$wilaya' , commune = '$commune' , tel = '$tel' , panier = 1 WHERE ip_address = '$ip'";
-						$sql = "UPDATE `cart` SET `firstname` = '$firstname', `lastname` = '$lastname', `wilaya` = '$wilaya', `commune` = '$commune', `tel` = '$tel', `panier` = '01' WHERE `cart`.`ip_address` = '$ip';";
-						$run = mysqli_query($con,$sql);
-
-						if (isset($run)) {
-							# code...
-							echo '
-							<div class="alert alert-success" role="alert">
-							  Votre commandes a été effectuer , on vous rappelle dans quelques heures pour confirmer.
-							</div>
-							';
-							header('Refresh: 5; URL=shop.php');
-						}
-
-					}
-
-					 ?>
+					
 				</div>
 <!---------------------------------------------main content--------------------------->
 
@@ -112,6 +99,8 @@ ob_start();
 							 		<?php 
 
 							 		$total = 0;
+							 		$t = 1;
+							 		$s = 1;
 									$ip = getUserIpAddr();
 									$tel = $_SESSION['tel'];
 									$price = "SELECT * FROM cart WHERE tel = '$tel' AND panier = 0 ";
@@ -159,10 +148,13 @@ ob_start();
 							 					
 							 			</td>
 							 			<td>
-							 				<input type="text" name="qty" size="4" value="<?= $qty; ?>" class="form-control" readonly>
+
+							 				<input type="number" name="qty" size="4" value="<?= $qty; ?>" id="qty<?= $s++ ?>" class="form-control">
+							 				<input type="hidden" id="id<?= $t++ ?>" value="<?= $cart_id ?>">
+							 				<!-- <div id="autoSave"></div> -->
 							 				
 							 			</td>
-							 			<td><?= $sing_price; ?></td>
+							 			<td id="price"><?= $sing_price; ?></td>
 							 		</tr>
 
 							 	<?php  }}//end while ?>
@@ -230,10 +222,113 @@ ob_start();
 						*/
 						 ?>
 
+						 <?php 
+
+					if (isset($_POST['buy'])) {
+						# code...
+						@$quantity = $_POST['quantity'];
+						@$firstname = $_POST['firstname'];
+						@$lastname  = $_POST['lastname'];
+						@$wilaya    = $_POST['wilaya'];
+						@$commune   = $_POST['commune'];
+						@$tel       = $_POST['tel'];
+						$ip         = getUserIpAddr();
+						@$total      = $_SESSION['total'];
+
+						//$sql = "UPDATE cart SET firstname = '$firstname' , lastname = '$lastname' , $wilaya ='$wilaya' , commune = '$commune' , tel = '$tel' , panier = 1 WHERE ip_address = '$ip'";
+						$sql = "UPDATE `cart` SET `quantity` = '$quantity', `firstname` = '$firstname', `lastname` = '$lastname', `wilaya` = '$wilaya', `commune` = '$commune', `tel` = '$tel', `panier` = '01' WHERE `cart`.`ip_address` = '$ip';";
+						$run = mysqli_query($con,$sql);
+
+						if (isset($run)) {
+							# code...
+							echo '
+							<div class="alert alert-success" role="alert">
+							  Votre commandes a été effectuer , on vous rappelle dans quelques heures pour confirmer.
+							</div>
+							';
+							header('Refresh: 5; URL=shop.php');
+						}
+
+					}
+
+					 ?>
+
 					</div><!--shoping cart container-->
 				</div><!--content-area-->
 			</div><!--row-->
 		</div><!--container fluid-->
+		
 	<?php include 'files/footer.php';
+
 	ob_end_flush();
 	 ?>
+	 <?php 
+						//$stop = total_items();
+						@$tel = $_SESSION['tel'];
+						$sql_run_items = "SELECT * FROM cart WHERE tel = '$tel' AND panier = 0";
+						$run_items     = mysqli_query($con,$sql_run_items);
+										    
+						$count_items   = mysqli_num_rows($run_items);
+						for ($i=1; $i <= $count_items ; $i++) { 
+							echo '
+
+	 	<script>  
+
+ $(document).ready(function(){ 
+ 	/**********/
+ let qty'.$i.' = $("#qty'.$i.'").val();
+	      $("#quantity'.$i.'").val(qty'.$i.');
+	      let price = $("#price").text();
+	      let id'.$i.' = $("#id'.$i.'").val();  
+	      console.log(qty'.$i.');
+	      console.log(id'.$i.'); 
+	      /*////////////*/
+      function autoSave()  
+      {  
+           let qty'.$i.' = $("#qty'.$i.'").val();
+	      $("#quantity'.$i.'").val(qty'.$i.');
+	      let price = $("#price").text();
+	      let id'.$i.' = $("#id'.$i.'").val();  
+	      console.log(qty'.$i.');
+	      console.log(id'.$i.'); 
+             
+                $.ajax({  
+                     url:"change_cart.php",  
+                     method:"POST",  
+                     data:{qty:qty'.$i.', id:id'.$i.'},  
+                     dataType:"text",  
+                     success:function(data)  
+                     {  
+                          // if(data != "")  
+                          // {  
+                          //      $("#id").val(data);  
+                          // }  
+                          $("#autoSave").text("Post save as draft");  
+                          setInterval(function(){  
+                               $("#autoSave").text("");  
+                          }, 5000);  
+                     }  
+                });  
+           }           
+        
+      setInterval(function(){   
+           autoSave();   
+           }, 10000);  
+
+      $("#qty'.$i.'").change(function() {
+	      autoSave();
+	      window.location.reload(true);
+
+	     
+    });
+ });  
+ </script>
+	 ';
+						}
+
+						 
+
+	 
+
+	  ?>
+	 
