@@ -1,6 +1,7 @@
 <?php 
 
 include 'files/db.php';
+include 'files/header.php';
 
 // $id = $_POST['id'];
 // $qty = $_POST['qty'];
@@ -22,7 +23,7 @@ include 'files/db.php';
     //update post  
     //$sql = "UPDATE cart SET quantity = '".$qty."' WHERE post_id = ".$id."";
     //$sql = "UPDATE `cart` SET `quantity` = '".$qty."' WHERE `cart`.`cart_id` = $id";
-    $sql = "UPDATE `cart` SET `quantity` = $qty WHERE `cart`.`cart_id` = '$id'";
+    $sql = "UPDATE `cart` SET `quantity` = $qty WHERE `cart`.`cart_id` = '$id' AND `cart`.`tel` = ".$_SESSION['tel']."";
 
     mysqli_query($con, $sql);  
   }  
