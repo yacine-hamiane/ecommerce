@@ -5,10 +5,10 @@ ob_start();
 
     if (isset($_GET['new']) && $_GET['new'] == 1) {
     	# code...
-    	echo "<script>alert("."le formulaire que vous avez rempli c\'etait juste pour l\'iscription ou connexion.remplissez les information sur le client pour valider votre commande et montrez que vous etes pas un spam)"."</script>";
+    	echo "<script>alert('".lang('alert')."')</script>";
     }
 
-    echo "<script>alert('".lang('alert')."')</script>";
+    
  ?>
  
 		
@@ -52,7 +52,7 @@ ob_start();
 										    
 						$count_items   = mysqli_num_rows($run_items);
 						for ($i=1; $i <= $count_items ; $i++) { 
-							echo '<input type="hidden" name="quantity" value="" id="quantity'.$i.'">';
+							echo '<input type="hidden" name="quantity'.$i.'" value="" id="quantity'.$i.'">';
 						}
 
 						 ?>
@@ -101,6 +101,8 @@ ob_start();
 							 		$total = 0;
 							 		$t = 1;
 							 		$s = 1;
+							 		$u =1;
+							 		$v = 1;
 									$ip = getUserIpAddr();
 									$tel = $_SESSION['tel'];
 									$price = "SELECT * FROM cart WHERE tel = '$tel' AND panier = 0 ";
@@ -123,7 +125,7 @@ ob_start();
 											$values        = array_sum($product_price);
 
 											//getting qtt of product
-											$qtt           = "SELECT * FROM cart WHERE product_id = '$product_id' ";
+											$qtt           = "SELECT * FROM cart WHERE product_id = '$product_id' AND tel = '$tel' ";
 											$run_qty       = mysqli_query($con,$qtt);
 
 
@@ -187,7 +189,7 @@ ob_start();
 							# code...
 							foreach ($_POST['remove'] as $remove_id ) {
 								# code...
-								$sql_delete = "DELETE FROM cart WHERE product_id = '$remove_id' AND ip_address = '$ip' ";
+								$sql_delete = "DELETE FROM cart WHERE product_id = '$remove_id' AND tel = '$tel' ";
 								$run_delete = mysqli_query($con,$sql_delete);
 
 								if ($run_delete) {
