@@ -1,8 +1,11 @@
  <?php 
+ ob_start();
     include 'files/header.php';
     include 'files/navbar.php';
 
     $id = $_GET['id'];
+
+    
      ?>
     <!-- Modal -->
     <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -43,6 +46,16 @@
                             $pro_image  = $row_pro['product_image'];
                  ?>
                 <div class="col-lg-5 mt-5">
+                    <?php 
+
+                    if (isset($_GET['buy']) && $_GET['buy'] == 'fast') {
+                        echo "<div class='alert alert-success fw-bold'>
+                        votre commandes est envoyé on vous appellera dans les prochains 24h pour confirmer</div>";
+                    }
+
+                    
+
+                     ?>
                     <div class="card mb-3">
                         <img class="card-img img-fluid" src="admin_area/product_images/<?= $pro_image ?>" alt="Card image cap" id="product-detail">
                     </div>
@@ -209,62 +222,102 @@
                             <h6>Description:</h6>
                             <p><?= nl2br($pro_desc) ?>
                             </p>
-                            <ul class="list-inline">
-                                <li class="list-inline-item d-none">
-                                    <h6>Avaliable Color :</h6>
-                                </li>
-                                <li class="list-inline-item d-none">
-                                    <p class="text-muted"><strong>White / Black</strong></p>
-                                </li>
-                            </ul>
+                            
 
-                            <h6 class="d-none">Specification:</h6>
-                            <ul class="list-unstyled pb-3 d-none">
-                                <li>Lorem ipsum dolor sit</li>
-                                <li>Amet, consectetur</li>
-                                <li>Adipiscing elit,set</li>
-                                <li>Duis aute irure</li>
-                                <li>Ut enim ad minim</li>
-                                <li>Dolore magna aliqua</li>
-                                <li>Excepteur sint</li>
-                            </ul>
+                            
 
-                            <form action="" method="GET">
-                                <input type="hidden" name="product-title" value="Activewear">
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <ul class="list-inline pb-3 d-none">
-                                            <li class="list-inline-item">Size :
-                                                <input type="hidden" name="product-size" id="product-size" value="S">
-                                            </li>
-                                            <li class="list-inline-item"><span class="btn btn-success btn-size">S</span></li>
-                                            <li class="list-inline-item"><span class="btn btn-success btn-size">M</span></li>
-                                            <li class="list-inline-item"><span class="btn btn-success btn-size">L</span></li>
-                                            <li class="list-inline-item"><span class="btn btn-success btn-size">XL</span></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-auto d-none">
-                                        <ul class="list-inline pb-3">
-                                            <li class="list-inline-item text-right">
-                                                Quantity
-                                                <input type="hidden" name="product-quanity" id="product-quanity" value="1">
-                                            </li>
-                                            <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
-                                            <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
-                                            <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                            
+                               
                                 <div class="row pb-3">
-                                    <div class="col d-grid d-none">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
-                                    </div>
-                                    <div class="col d-grid">
+                                    
+                                    <div class="col d-grid d-flex justify-content-between">
                                         
-                                        <a href="index.php?add_cart=<?= $pro_id ?>" title="" class="btn btn-success btn-lg">effectuer un achat  (قم بالشراء)</a>
+                                        <a href="index.php?add_cart=<?= $pro_id ?>" title="" class="btn btn-success btn-lg" width='40%'>ajouter au panier (اضف إلى السلة) <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i></a>
+                                        
+
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" width='40%'>
+  Achat rapide (شراء مباشرة ، بدون اضافة إلى سلة)
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header"> <!--start modal header-->
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Formulaire D'achat</h1>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div><!--end modal header-->
+
+      <div class="modal-body"><!--start modal body-->
+        <form class="row g-3 col-md-12 d-flex" method="post"><!--start form-->
+
+           <div class="row">
+
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Prenom (الاسم)" aria-label="Prenom" name="prenomfast">
+              </div>
+
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Nom (اللقب)" aria-label="Nom" name="nomfast">
+              </div>
+
+            </div>
+
+            <div class="row mt-2">
+              <div class="col">
+                <input type="text" class="form-control" placeholder="wilaya (الولاية)" aria-label="wilaya" name="wilayafast">
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="commune (البلدية)" aria-label="commune" name="communefast">
+              </div>
+
+            </div>
+
+               <div class="row mt-2">
+                  <div class="col">
+                    <input type="number" class="form-control" placeholder="numero du téléphone (رقم الهاتف)" aria-label="numero du téléphone" name="numfast">
+                  </div>
+              
+                </div>
+
+                
+      </div><!--end modal body-->
+
+      <div class="modal-footer"><!--start modal footer-->
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler (إلغاء)</button>
+        
+        <input type="submit" name="buyfast" value="Confirmer (ارسال)" class="btn btn-primary">
+      </div><!--end modal footer-->
+      <?php 
+
+            if (isset($_POST['buyfast'])) {
+                
+                $fprenom = $_POST['prenomfast'];
+                $fnom    = $_POST['nomfast'];
+                $fwilaya = $_POST['wilayafast'];
+                $fcommune = $_POST['communefast'];
+                $fnum     = $_POST['numfast'];
+                $ip = getUserIpAddr();
+
+                $sql = "INSERT INTO cart (product_id,product_title,ip_address,quantity,firstname,lastname,wilaya,commune,tel) VALUES ('$id','$pro_title','$ip',1,'$fprenom','$fnom','$fwilaya','$fcommune','$fnum')";
+                $run = mysqli_query($con,$sql);
+
+                if (isset($run)) {
+                    # code...
+                    header('location:shop-single.php?buy=fast&id='.$id);
+                }
+                
+            }
+             ?>
+      </form><!--end form-->
+    </div><!--end modal body-->
+  </div><!--end modal content-->
+</div><!--end modal dialog-->
                                     </div>
                                 </div>
-                            </form>
+                            
 
                         </div>
                     </div>
@@ -792,7 +845,3 @@
         });
     </script>
     <!-- End Slider Script -->
-
-</body>
-
-</html>
