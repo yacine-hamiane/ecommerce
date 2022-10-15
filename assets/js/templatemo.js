@@ -8,6 +8,45 @@ https://templatemo.com/tm-559-zay-shop
 
 'use strict';
 $(document).ready(function() {
+  
+  
+    
+  $('.qty').change(function() {
+    let qty = $('.qty').val();
+    let length_row = $('.qty');
+    let count = Object.keys(length_row).length;
+    // console.log(length_row)
+    // alert(length_row)
+    //console.log('la quantité est : ' + qty)
+    
+    for (var i = 1; i < count - 1; i++) {
+      let qtyy = $('#qty'+i+'').val();
+      
+    let un  = 1;
+
+    if (qtyy < 1) {
+      alert('vous pouvez pas faire une quantité inferieur a 1, la quantité va devenir 1 automatiquement');
+      $('#qty'+i+'').val(un);
+    }
+    }
+    
+  })
+
+    // $('#qty').change(function() {
+    //   let qty = $('#qty').val();
+    //   $('#quantity').val(qty);
+    //   let price = $('#price').text();
+    //   let id = $('#id').val();
+
+    //   $.ajax({
+    //     url : "change_cart.php",
+    //     method : "POST",
+    //     data : {qty:qty,price:price,id:id},
+    //     success : function(data) {
+    //       console.log(data)
+    //     }
+    //   })
+    // });
 
     // Accordion
     var all_panels = $('.templatemo-accordion > li > ul').hide();
