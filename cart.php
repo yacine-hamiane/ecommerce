@@ -151,7 +151,7 @@ ob_start();
 							 			</td>
 							 			<td>
 
-							 				<input type="number" name="qty" size="4" value="<?= $qty; ?>" id="qty<?= $s++ ?>" class="form-control">
+							 				<input type="number" name="qty" size="4" value="<?= $qty; ?>" id="qty<?= $s++ ?>" class="form-control qty">
 							 				<input type="hidden" id="id<?= $t++ ?>" value="<?= $cart_id ?>">
 							 				<!-- <div id="autoSave"></div> -->
 							 				
