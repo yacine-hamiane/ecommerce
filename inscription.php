@@ -62,11 +62,11 @@ ob_start();
 
      	if (isset($_POST['inscription'])) {
      		# code...
-     		$nom     = $_POST['nom'];
-     		$prenom  = $_POST['prenom'];
+     		$nom     = htmlspecialchars($_POST['nom']);
+     		$prenom  = htmlspecialchars($_POST['prenom']);
      		$numero  = $_POST['num'];
-     		$wilaya  = $_POST['wilaya'];
-     		$commune = $_POST['commune'];
+     		$wilaya  = htmlspecialchars($_POST['wilaya']);
+     		$commune = htmlspecialchars($_POST['commune']);
 
      		@$id      = $_GET['id'];
             $check   = "SELECT * FROM client WHERE num = '$numero'";
