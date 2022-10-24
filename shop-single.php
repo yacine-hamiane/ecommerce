@@ -5,7 +5,7 @@
 
     $id = $_GET['id'];
 
-    
+    popup();
      ?>
     <!-- Modal -->
     <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -301,7 +301,7 @@
                 $fnum     = $_POST['numfast'];
                 $ip = getUserIpAddr();
 
-                $sql = "INSERT INTO cart (product_id,product_title,ip_address,quantity,firstname,lastname,wilaya,commune,tel) VALUES ('$id','$pro_title','$ip',1,'$fprenom','$fnom','$fwilaya','$fcommune','$fnum')";
+                $sql = "INSERT INTO cart (product_id,product_title,ip_address,quantity,firstname,lastname,wilaya,commune,tel,panier) VALUES ('$id','$pro_title','$ip',1,'$fprenom','$fnom','$fwilaya','$fcommune','$fnum',1)";
                 $run = mysqli_query($con,$sql);
 
                 if (isset($run)) {
