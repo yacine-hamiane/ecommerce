@@ -3,6 +3,7 @@
     include 'files/navbar.php';
 
     $search = $_GET['q'];
+    popup();
 ?>
 
 
