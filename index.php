@@ -3,6 +3,7 @@ ob_start();
     include 'files/header.php';
     include 'files/navbar.php';
     include 'files/banner.php';
+    popup();
      ?>
 
    
