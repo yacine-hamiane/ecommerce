@@ -4,7 +4,7 @@ ob_start();
     include 'files/navbar.php';
     //include 'files/banner.php';
     @$id = $_GET['id'];
-
+    popup();
      ?>
 
     <section class="container py-5">
