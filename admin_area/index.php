@@ -30,8 +30,8 @@ include 'files/header.php';
 
  					if (isset($_POST['submit'])) {
  						# code...
- 						$name      = $_POST['login'];
- 						$password  = $_POST['password'];
+ 						$name      = htmlspecialchars($_POST['login']);
+ 						$password  = htmlspecialchars($_POST['password']);
 
  						$sql       = "SELECT * FROM admin WHERE user_admin = '$name' AND password = '$password'";
  						$query		= mysqli_query($con,$sql);
