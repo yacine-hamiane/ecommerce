@@ -4,7 +4,50 @@ ob_start();
     include 'files/navbar.php';
     //include 'files/banner.php';
     @$id      = $_GET['id'];
+    $alert = '';
      ?>
+     <?php 
+
+        if (isset($_POST['inscription'])) {
+            # code...
+            $nom     = htmlspecialchars($_POST['nom']);
+            $prenom  = htmlspecialchars($_POST['prenom']);
+            $numero  = $_POST['num'];
+            $wilaya  = htmlspecialchars($_POST['wilaya']);
+            $commune = htmlspecialchars($_POST['commune']);
+
+            @$id      = $_GET['id'];
+            $check   = "SELECT * FROM client WHERE num = '$numero'";
+            $run_check = mysqli_query($con,$check);
+            if (mysqli_num_rows($run_check) > 0) {
+                # code...
+                //echo "<script>alert('ce numéro existe deja')</script>";
+                $alert = '<div class="alert alert-danger fw-bold" role="alert">ce numéro existe deja veuillez <a href="contact.php" title=""> nous contacter </a>pour verifier ca.</div>';
+            }else{
+                $sql    ="INSERT INTO client (nom, prenom, num, wilaya, commune) VALUES ('$nom', '$prenom', '$numero', '$wilaya', '$commune')";
+            $query   = mysqli_query($con,$sql);
+
+            if (isset($query)) {
+                # code...
+                $_SESSION['client']  = $nom . '_' . $prenom;
+                $_SESSION['tel']     = $numero;
+
+                if (isset($_GET['go']) AND $_GET['go'] = 'add_cart' ) {
+                    # code...
+                    header('location:index.php?add_cart='.$id.'&new=1');
+                }else{
+                    header('location:index.php');
+                }
+                
+                //echo $_SESSION['client'];
+            }
+            }
+            //$sql     = "INSERT INTO `client` (`client_id`, `nom`, `prenom`, `num`, `wilaya`, `commune`) VALUES (NULL, 'nom', 'prenom', '540160812', 'alger', 'beb el oued')";
+
+            
+        }
+
+         ?>
      <form action="" method="post" accept-charset="utf-8">
      	<div class="container mt-4">
      	<div class="row">
@@ -17,6 +60,9 @@ ob_start();
                     echo '<a class="text-decoration-none" href="connexion.php?add_cart='.$id.'" title="">'.lang('lien_co').'</a>';
                 }else{
                  echo '<a class="text-decoration-none" href="connexion.php" title="">'.lang('lien_co').'</a>';
+                }
+                if ($alert !== '') {
+                    echo $alert;
                 }
                 ?>
      	<div class="row g-2">
@@ -58,47 +104,7 @@ ob_start();
      	</div>
      	
      </div>
-     	<?php 
-
-     	if (isset($_POST['inscription'])) {
-     		# code...
-     		$nom     = htmlspecialchars($_POST['nom']);
-     		$prenom  = htmlspecialchars($_POST['prenom']);
-     		$numero  = $_POST['num'];
-     		$wilaya  = htmlspecialchars($_POST['wilaya']);
-     		$commune = htmlspecialchars($_POST['commune']);
-
-     		@$id      = $_GET['id'];
-            $check   = "SELECT * FROM client WHERE num = '$numero'";
-            $run_check = mysqli_query($con,$check);
-            if (mysqli_num_rows($run_check) > 0) {
-                # code...
-                echo "<script>alert('ce numéro existe deja')</script>";
-            }else{
-                $sql    ="INSERT INTO client (nom, prenom, num, wilaya, commune) VALUES ('$nom', '$prenom', '$numero', '$wilaya', '$commune')";
-            $query   = mysqli_query($con,$sql);
-
-            if (isset($query)) {
-                # code...
-                $_SESSION['client']  = $nom . '_' . $prenom;
-                $_SESSION['tel']     = $numero;
-
-                if (isset($_GET['go']) AND $_GET['go'] = 'add_cart' ) {
-                    # code...
-                    header('location:index.php?add_cart='.$id.'&new=1');
-                }else{
-                    header('location:index.php');
-                }
-                
-                //echo $_SESSION['client'];
-            }
-            }
-     		//$sql     = "INSERT INTO `client` (`client_id`, `nom`, `prenom`, `num`, `wilaya`, `commune`) VALUES (NULL, 'nom', 'prenom', '540160812', 'alger', 'beb el oued')";
-
-     		
-     	}
-
-     	 ?>
+     	
      </form>
      
 
