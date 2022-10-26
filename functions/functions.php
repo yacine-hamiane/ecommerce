@@ -107,6 +107,10 @@ function popup()
 	}
 	//echo $script;
 }
+
+function check_isset_product_in_cart(){
+
+}
 function getUserIpAddr(){
     if(!empty($_SERVER['HTTP_CLIENT_IP'])){
         //ip from share internet
@@ -147,7 +151,7 @@ function total_price(){
 			$values        = array_sum($product_price);
 
 			//getting qtt of product
-			$qtt           = "SELECT * FROM cart WHERE product_id = '$product_id'  ";
+			$qtt           = "SELECT * FROM cart WHERE product_id = '$product_id' AND tel = '$numero'";
 			$run_qty       = mysqli_query($con,$qtt);
 
 
@@ -158,6 +162,7 @@ function total_price(){
 			$total         += $values_qty;//$values;
 		}
 	}
+	
 	echo $total . ' DA';
 }//end function tatal_price
 function total_items()
