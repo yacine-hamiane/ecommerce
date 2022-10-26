@@ -23,24 +23,29 @@ ob_start();
                     if (isset($_GET['add_cart']) && !isset($_GET['new'])) {
                         # code...
                         $product_id = $_GET['add_cart'];
+                        $tel            = $_SESSION['tel'];
 
                         $ip = getUserIpAddr();
                         echo $product_id;
                         echo $ip;
-                        $sql        = "SELECT * FROM cart WHERE product_id = '$product_id'";
+                        $sql        = "SELECT * FROM cart WHERE product_id = '$product_id' AND tel = '$tel'";
                         $run_check_pro = mysqli_query($con,$sql);
 
-                        if (!isset($_SESSION['client'])) {
-                        	# code...
-                        	
-                        	header('location:inscription.php?go=add_cart&id='.$product_id);
+                        if (mysqli_num_rows($run_check_pro) > 0) {
+                            header('location:cart.php');
+                        }else{
+                            if (!isset($_SESSION['client'])) {
+                            # code...
+                            
+                            header('location:inscription.php?go=add_cart&id='.$product_id);
                         }else{
                             //essaye ce code pour les utilisateur qui viennent de la page inscription.php pour ajouter le produit directement a la cart
+                            //check if isset product in cart
                             $fetch_product  = "SELECT * FROM products WHERE product_id = '$product_id' ";
                             $fetch_pro      = mysqli_query($con,$fetch_product);
                             $fetch_pro      = mysqli_fetch_array($fetch_pro);
                             $pro_title      = $fetch_pro['product_title'];
-                            $tel 			= $_SESSION['tel'];
+                            //$tel          = $_SESSION['tel'];
 
                             $insert_product = "INSERT INTO cart (product_id,product_title,ip_address,quantity,firstname,lastname,wilaya,commune,tel) VALUES ('$product_id','$pro_title','$ip',1,'0','0','0','0','$tel')";
 
@@ -58,17 +63,22 @@ ob_start();
                         }
                         }
 
+                        
+                        }
+
                         if (isset($_GET['new']) && isset($_GET['add_cart'])) {
                             # code...
                             $product_id = $_GET['add_cart'];
-
+                            $tel            = $_SESSION['tel'];
                         $ip = getUserIpAddr();
                         echo $product_id;
                         echo $ip;
-                        $sql        = "SELECT * FROM cart WHERE product_id = '$product_id'";
+                        $sql        = "SELECT * FROM cart WHERE product_id = '$product_id' AND tel = '$tel'";
                         $run_check_pro = mysqli_query($con,$sql);
-
-                        if (!isset($_SESSION['client'])) {
+                        if (mysqli_num_rows($run_check_pro) > 0) {
+                            header('location:cart.php');
+                        }else{
+                            if (!isset($_SESSION['client'])) {
                             # code...
                             
                             header('location:inscription.php?go=add_cart&id='.$product_id);
@@ -78,7 +88,9 @@ ob_start();
                             $fetch_pro      = mysqli_query($con,$fetch_product);
                             $fetch_pro      = mysqli_fetch_array($fetch_pro);
                             $pro_title      = $fetch_pro['product_title'];
-                            $tel            = $_SESSION['tel'];
+                            
+
+                            //check if isset product in cart
 
                             $insert_product = "INSERT INTO cart (product_id,product_title,ip_address,quantity,firstname,lastname,wilaya,commune,tel) VALUES ('$product_id','$pro_title','$ip',1,'0','0','0','0','$tel')";
 
@@ -94,6 +106,9 @@ ob_start();
 
                             
                         }
+                        }
+
+                        
                         }
                         
                     //}//endif
