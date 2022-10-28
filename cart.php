@@ -32,7 +32,11 @@ ob_start();
 
 						<div class="row mt-3">
   							<div class="col">
-    							<input type="text" class="form-control" placeholder="<?= lang('wilaya'); ?>" aria-label="First name" name="wilaya">
+    							<!-- <input type="text" class="form-control d-none" placeholder="<?= lang('wilaya'); ?>" aria-label="First name" name="wilaya"> -->
+    							<select class="form-select" aria-label="Default select example" name="wilaya" id="wilaya">
+								  
+								  <?php getwilaya() ?>
+								</select>
   							</div>
   							<div class="col">
     							<input type="text" class="form-control" placeholder="<?= lang('commune'); ?>" aria-label="Last name" name="commune">
@@ -83,7 +87,7 @@ ob_start();
 						}
 
 						 ?>
-						 <span class="float-end mb-5"><b style="color: navy;"><?= lang('panier'); ?> </b> : <?= lang('nombre'); ?> <?php total_items(); ?> / <?= lang('total'); ?> : <?php total_price(); ?></span>
+						 <span class="float-end mb-5"><b style="color: navy;"><?= lang('panier'); ?> </b> : <?= lang('nombre'); ?> <?php total_items(); ?> / <?= lang('total'); ?> : <?php total_price(); ?> </span>
 
 						 <form action="" method="post" enctype="multipart/form-data">
 
@@ -162,7 +166,20 @@ ob_start();
 							 	<?php  }}//end while ?>
 
 							 	<tr>
-							 		<td colspan="4" align="right"><b><?= lang('total'); ?> : </b><?= total_price(); ?></td>
+							 		<td colspan="4" align="right"><b><?= lang('total'); ?> : </b><?= total_price(); ?><input type="hidden" id="total_price" value="<?= total_price(); ?>"> </td>
+
+							 		
+							 	</tr>
+							 	<tr>
+							 		
+							 		<td colspan="4" align="right"> <b>+ livraison : </b><input type="text" id="prix_livraison" value="" name="prix_livraison"  class="form-control form-control-sm w-25 d-inline" readonly> dinar </td>
+							 		
+							 	</tr>
+							 	<tr>
+							 		
+							 		<td colspan="4" align="right">  <span id="totalplusliv">= </span> da</td>
+							 		
+							 		
 							 	</tr>
 
 							 		<tr align="center">
@@ -236,9 +253,18 @@ ob_start();
 						@$tel       = $_POST['tel'];
 						$ip         = getUserIpAddr();
 						@$total      = $_SESSION['total'];
-
-						//$sql = "UPDATE cart SET firstname = '$firstname' , lastname = '$lastname' , $wilaya ='$wilaya' , commune = '$commune' , tel = '$tel' , panier = 1 WHERE ip_address = '$ip'";
-						$sql = "UPDATE `cart` SET `quantity` = '$quantity', `firstname` = '$firstname', `lastname` = '$lastname', `wilaya` = '$wilaya', `commune` = '$commune', `tel` = '$tel', `panier` = '01' WHERE `cart`.`ip_address` = '$ip';";
+						
+						/*
+						$sql_run_items = "SELECT * FROM cart WHERE tel = '$tel' AND panier = 0";
+						$run_items     = mysqli_query($con,$sql_run_items);
+										    
+						$count_items   = mysqli_num_rows($run_items);
+						for ($i=1; $i <= $count_items ; $i++) { 
+							echo '<input type="hidden" name="quantity'.$i.'" value="" id="quantity'.$i.'">';
+						}
+						*/
+						// `cart`.`cart_id$sql = "UPDATE cart SET firstname = '$firstname' , lastname = '$lastname' , $wilaya ='$wilaya' , commune = '$commune' , tel = '$tel' , panier = 1 WHERE ip_address = '$ip'";
+						$sql = "UPDATE `cart` SET  `firstname` = '$firstname', `lastname` = '$lastname', `wilaya` = '$wilaya', `commune` = '$commune', `tel` = '$tel', `panier` = '01' WHERE `cart`.`tel` = '$tel'";
 						$run = mysqli_query($con,$sql);
 
 						if (isset($run)) {
