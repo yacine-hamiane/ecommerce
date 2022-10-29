@@ -108,8 +108,20 @@ function popup()
 	//echo $script;
 }
 
-function check_isset_product_in_cart(){
+function getwilaya(){
+	global $con;
+	$getwilaya = 'SELECT * FROM livraison';
+	$runwilaya = mysqli_query($con,$getwilaya);
 
+	while ($rowwilaya = mysqli_fetch_array($runwilaya)) {
+		$w = $rowwilaya['wilaya'];
+		if ($w === 'chlef') {
+			$selected = 'selected';
+		}else{
+			$selected = '';
+		}
+		echo '<option '.$selected.' value="'.$rowwilaya['code_wilaya'].'-'.$rowwilaya['prix_livraison'].'">'.$rowwilaya['wilaya'].'</option>';
+	}
 }
 function getUserIpAddr(){
     if(!empty($_SERVER['HTTP_CLIENT_IP'])){
@@ -132,7 +144,7 @@ function total_price(){
 
 	$total = 0;
 	$ip = getUserIpAddr();
-	$price = "SELECT * FROM cart WHERE tel = '$numero' ";
+	$price = "SELECT * FROM cart WHERE tel = '$numero' AND panier = 0 ";
 	$run_cart = mysqli_query($con,$price);
 
 	while ($fetch_cart = mysqli_fetch_array($run_cart)) {
