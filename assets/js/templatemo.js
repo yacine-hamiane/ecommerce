@@ -9,6 +9,9 @@ https://templatemo.com/tm-559-zay-shop
 'use strict';
 $(document).ready(function() {
   
+  $('#rappelle').click(function() {
+    $('#rappelle').addClass('disabled');
+  })
   
     
   $('.qty').change(function() {
@@ -47,8 +50,64 @@ $(document).ready(function() {
     //     }
     //   })
     // });
+    function displayVals() {
+              // body...
+              var singleWilaya = $( "#wilaya" ).val()
+              //console.log(typeof singleWilaya)
 
+              //$( "p" ).html( "<b>wilaya:</b> " + singleWilaya );
+
+              
+
+              $( "#prix_livraison" ).val( singleWilaya.substr(3) );
+              
+              
+            }
+
+            $( "select" ).change( displayVals );
+            displayVals();
+        /////////////////////////////////////////
+        function totalplusliv() {
+          let total = $('#total_price').val();
+          let totals = parseInt(total);
+          let liv   = $('#prix_livraison').val();
+          let livraison = parseInt(liv)
+          let totalplusliv = totals + livraison;
+          
+          $("#totalplusliv").append(totalplusliv);
+        }
+        totalplusliv()
+        ///////////////////////
+        function total_price_buyfast() {
+          let price = $('#product_price').val();
+          //console.log(price)
+          let prix  = parseInt(price);
+          //console.log(prix)
+          let liv   = $('#prix_livraison').val();
+          let livraison = parseInt(liv)
+          //console.log(livraison)
+          let ttl   = prix + livraison;
+          //console.log(ttl)
+          $('#priceplusliv').html(ttl)
+          console.log()
+         $('#wilaya').change(function() {
+            let price = $('#product_price').val();
+          console.log(price)
+          let prix  = parseInt(price);
+          console.log(prix)
+          let liv   = $('#prix_livraison').val();
+          let livraison = parseInt(liv)
+          console.log(livraison)
+          let ttl   = prix + livraison;
+          console.log(ttl)
+          $('#priceplusliv').html(ttl)
+          });
+        }
+        //$('#wilaya').onchange(total_price_buyfast());
+        total_price_buyfast();
     // Accordion
+
+
     var all_panels = $('.templatemo-accordion > li > ul').hide();
 
     $('.templatemo-accordion > li > a').click(function() {
